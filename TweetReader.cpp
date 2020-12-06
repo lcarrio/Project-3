@@ -11,8 +11,8 @@ int main() {
     map<string, int> wordsCount;
     map<string, int>::iterator mapIt;
 
-    ifstream input("democrats.csv");
-    ofstream output("democratsCountCSV.txt");
+    ifstream input("republicans.csv");
+    ofstream output("republicansOutput.txt");
     
     while (getline(input, line)) {
         stringstream ss(line);
@@ -62,8 +62,9 @@ int main() {
     }
 
     //Prints out all of the words stored in the map along with their word count and ratio of uses to total words found
+    output << "Total words: " << totalWords << '\n';
     for (mapIt = wordsCount.begin(); mapIt != wordsCount.end(); mapIt++) {
-        output << mapIt->first << ", " << mapIt->second << ", " << ((float)mapIt->second / totalWords) << '\n';
+        output << mapIt->first << ", " << mapIt->second << '\n';
     }
     return 0;
 }
