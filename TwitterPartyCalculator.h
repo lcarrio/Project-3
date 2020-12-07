@@ -188,8 +188,28 @@ public:
     juce::Label output;
     juce::Label outputText;
     juce::Label passOnText;
+    juce::Label orderedMapTime;
+    juce::Label unorderedMapTime;
+    juce::Label fastestTime;
+    juce::Label mapText;
+    juce::Label hashText;
+    
     MainContentComponent()
     {
+        orderedMapTime.setText("Time for execution using ordered map:", juce::dontSendNotification);
+        orderedMapTime.setColour(juce::Label::textColourId, juce::Colours::lightblue);
+        orderedMapTime.attachToComponent(&mapText,true);
+        addAndMakeVisible(orderedMapTime);
+        orderedMapTime.setJustificationType (juce::Justification::left);
+        addAndMakeVisible(mapText);
+        
+        unorderedMapTime.setText("Time for execution using hash table: ",juce::dontSendNotification);
+        unorderedMapTime.setColour(juce::Label::textColourId, juce::Colours::lightblue);
+        unorderedMapTime.attachToComponent(&hashText,true);
+        addAndMakeVisible(unorderedMapTime);
+        unorderedMapTime.setJustificationType(juce::Justification::left);
+        addAndMakeVisible(hashText);
+        
        //Sets the text at the top of the input box
         twitterPartyCalculator.setText ("Please click on the box to enter your tweet",juce::dontSendNotification);
         //Sets the color of the text to lightblue
@@ -228,6 +248,10 @@ public:
                     char c = j[i]; // J is a Juce::String which is why we needed to do this.
                     tweet += c;
                 }
+            juce::String mapTimeSeconds = "5 ms";
+            juce::String hashTextSeconds = "5 ms";
+            mapText.setText(mapTimeSeconds,juce::dontSendNotification);
+            hashText.setText(hashTextSeconds,juce::dontSendNotification);
             unordered_map<string, Word> dictionary = initializeMaps();
             int output = getValue(dictionary, tweet);
             if(output == 0){
@@ -241,14 +265,15 @@ public:
             }
             
             };
-       
-        
-        
         setSize (500, 350);
     }
     // Function to set the location of the text labels
     void resized() override
     {
+        orderedMapTime.setBounds(0,210,getWidth()-20,30);
+        unorderedMapTime.setBounds(0,240,getWidth()-20,30);
+        hashText.setBounds(300,240,getWidth()-20,30);
+        mapText.setBounds(300,210,getWidth()-20,30);
         twitterPartyCalculator.setBounds (5,  30, getWidth() - 20,  30);
         inputText.setBounds (100, 70, getWidth() - 110, 20);
         outputText.setBounds (100, 140, getWidth() - 110, 20);
